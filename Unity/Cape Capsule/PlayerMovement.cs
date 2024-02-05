@@ -48,7 +48,8 @@ public class PlayerMovement : MonoBehaviour
         //Why did we create a new layer mask: ground though? Was the older ones not good enough or something??
 
         return Physics.CheckSphere(groundCheck.position, 0.1f, ground);
+
+        //What is a Prefab anyways? And why are we operating on it, rather than directly operating on the floor? 
         
     }
 }
-
