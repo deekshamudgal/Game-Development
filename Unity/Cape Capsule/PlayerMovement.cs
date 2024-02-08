@@ -35,9 +35,23 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.GetButtonDown("Jump") && IsGrounded())
         {
-            //Vector3 expects float values, thus the f after 5
+            Jump();
+        }
+    }
+        void Jump()
+    {
+        //Vector3 expects float values, thus the f after 5
+        rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+    }
 
-            rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Enemy Head"))
+        {
+            //here we can use destroy as we don't care if the whole enemy get erased from the disk- that is the goal!
+            //transforming the gameObject to be destroyed to the parent rather than only the head box collider
+            Destroy(collision.transform.parent.gameObject);
+            Jump();
         }
     }
 
@@ -53,3 +67,4 @@ public class PlayerMovement : MonoBehaviour
         
     }
 }
+
