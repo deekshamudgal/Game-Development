@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class NewBehaviourScript : MonoBehaviour
 {
+    [SerializeField] AudioSource deathSound;
     Boolean Dead=false;
     private void Update()
     {
@@ -18,6 +19,7 @@ public class NewBehaviourScript : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        
         if (collision.gameObject.CompareTag("Enemy Body"))
         {
             GetComponent<MeshRenderer>().enabled = false; //WOOSH, will disappear like magix~~
@@ -32,6 +34,7 @@ public class NewBehaviourScript : MonoBehaviour
             //why is it that when I reload my level, it's lighting doesn't change but other people's does....?
             Invoke(nameof(ReloadLevel), 1.3f); //the time delay is 1.3 seconds because I liked the value...Because why not~
             Dead = true;
+            deathSound.Play();
             //we could have also used Destroy() inbuilt function but it will also remove the Player life script. 
 
         }
