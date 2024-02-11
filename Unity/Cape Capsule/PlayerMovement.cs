@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -14,6 +16,9 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask ground;
+    //we did not use get component because it cannot distinguish between different audio files
+    [SerializeField] AudioSource jumpSound;
+    [SerializeField] AudioSource endlevelSound;
 
     // Start is called before the first frame update
 
@@ -42,10 +47,12 @@ public class PlayerMovement : MonoBehaviour
     {
         //Vector3 expects float values, thus the f after 5
         rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+        jumpSound.Play();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        //Enemy Head is used as the string, because we don't want the Enemy to be destroyed Oncollision but rather when we jump over it's head
         if(collision.gameObject.CompareTag("Enemy Head"))
         {
             //here we can use destroy as we don't care if the whole enemy get erased from the disk- that is the goal!
@@ -66,5 +73,12 @@ public class PlayerMovement : MonoBehaviour
         //What is a Prefab anyways? And why are we operating on it, rather than directly operating on the floor? 
         
     }
-}
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Endgate"))
+        {
+            endlevelSound.Play();
+        }
+    }
+}
